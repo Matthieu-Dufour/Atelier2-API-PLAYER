@@ -1,0 +1,29 @@
+version: '3.6'
+services:
+  apiplayer:
+    build:
+      context: .
+      dockerfile: apiplayer.dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - isolated_nw2
+    container_name: apiplayer
+    depends_on:
+      - pgbd
+
+  pgbd:
+    image: postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - isolated_nw2
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: riovas
+    container_name: postgres
+
+networks:
+  isolated_nw2:
+    driver: bridge
